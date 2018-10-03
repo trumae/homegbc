@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GoalBarClub - Simple Shot</title>
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
+  </head>
+  
+  <body>
+    
+    <div class="container-fluid">
+      
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="games-tab" data-toggle="tab" href="#games" role="tab" aria-controls="games" aria-selected="true">Games</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="howto-tab" data-toggle="tab" href="#howto" role="tab" aria-controls="howto" aria-selected="false">How To</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">Links</a>
+        </li>
+      </ul>
+       
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="games" role="tabpanel" aria-labelledby="games-tab" style='background-image: url("https://c.pxhere.com/photos/e7/69/artificial_turf_sports_turf_artificial_grass_lawn_green_grass_turf_green_texture-798258.jpg!d");'>
+          <nav class="navbar navbar-dark bg-dark">
+	    <div class="btn-group" role="group">
+	      <a type="button" class="btn btn-info" href="javascript:initGameList()">Refresh</a>
+	      <a type="button" id="btnLogout" style="display:none;" class="btn btn-info" href="javascript:appLogout()">Logout</a>
+	    </div>
+	    <span  id="balance" class="text-right" style="display:none;background-color:#e9ecefee;">My Balance: <span id="mybalance">0.0000 EOS</span></span>
+	  </nav><br/>
+
+	  <div class="modal fade bd-example-modal-lg" role="dialog" id="msg">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Alert!</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body" id="msgContent">
+		  <p>Modal body text goes here.</p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	      </div>
+	    </div>
+	  </div>	  
+
+	  
+          <!-- Login -->
+          <div class="row"  id="divlogin" style="display:none;">
+            <div class="col-10 offset-1">
+              <div class="jumbotron" style="background-color:#e9ecefee;">
+                <center><a class="btn btn-primary btn-lg" href="javascript:appLogin();" role="button">Login with Scatter</a></center>
+              </div>
+            </div>
+          </div>
+
+	  
+          <h3  id="balance" class="text-right" style="display:none;background-color:#e9ecefee;">My Balance: <span id="mybalance">0.0000 EOS</span></h3>
+	  
+          <!-- Claim regawards -->
+          <div class="row" id="divclaim" style="display:none;">
+            <div class="col-10 offset-1">
+              <div class="jumbotron" style=" style="background-color:#e9ecefee;">
+                <h3>Balance to claim: <span id="toclaim">2.0000 EOS</span></h3>
+                <center><a class="btn btn-primary btn-lg" href="javascript:claim();" role="button">Claim</a></center>
+              </div>
+            </div>
+          </div>
+	  
+          <!-- Open games regawards -->
+          <div class="row">
+            <div class="col-12">
+              <h3 class="text-center" style="background-color:#e9ecefee;">Games to bet</h3>
+              <div class="row" id="listgames" style="min-height: 800px;">
+              </div>
+            </div>
+          </div>
+        </div>
+	
+	
+	
+        <div class="tab-pane fade" id="howto" role="tabpanel" aria-labelledby="howto-tab">
+          <h3>How it works</h3>
+	  
+          <h4>Simple game to guess score rules</h4>
+	  
+          <ul>
+            <li>Players can pick a game and define the amount of EOS to be waged.</li>
+            <li>An exact score of a match is the condition to win the bet. If the results of the game match with the bet, the player earns a payoff.</li>
+            <li>There are up to three betting levels for each game: Gold, Silver, and Bronze. For each level, there is a minimum and a maximum bet amount accepted. Gold has the highest, Silver the intermediate and Bronze the smallest range.</li>
+            <li>Given a game, a player cannot make more than one bet per level. For example, if a player chooses to bet on level Gold, he/she can also make bets on Silver and Bronze. However, no other bet on level Gold is allowed for that particular game.</li>
+            <li>The bets on each level are independent, so the score for bets in different levels can be different. For example, the player can bet on level Gold 2x1 and also make a bet on level Silver 2x2.</li>
+            <li>The player transfers the amount waged from his/her account to the EOS contract account.</li>
+            <li>The system accepts bets for each game up to a few minutes before the start time.</li>
+            <li>From the total amount received, a fee of up to 10% will be deducted to cover the operational costs. The fee percentage may vary depending on the game and betting levels.</li>
+            <li>The total payout is distributed to the winners proportionally to the amount waged.</li>
+            <li>Winning players can redeem their prize directly in the application. The game contract transfers the payouts from the game account to each user.</li>
+            <li>If no one guesses the game score correctly, the smart contract returns the proceeds to the original players after deducting the correspondent operating fees.</li>
+            <li>All these steps are recorded in the blockchain and will be there forever as a public record.</li>
+          </ul>
+	  
+          <h4>Sample game calculations</h4>
+          <h5>1. The scenario where there are winners</h5>
+	  
+          <p><b>The game:</b> Game China 1x1 Japan Fee = 5%</p>
+	  
+          <h5>The Players actions:</h5>
+          <ul>
+            <li><b>John:</b> bets  50 EOS on score 1x0</li>
+            <li><b>Tony:</b> bets  90 EOS on score 1x2</li>
+            <li><b>Mike:</b> bets  40 EOS on score 1x1 (winner)</li>
+            <li><b>Jane:</b> bets  60 EOS on score 1x1 (winner)</li>
+          </ul>
+	  
+          <h5><b>Amount collected:</b> 240 EOS</h5>
+	  
+          <h5><b>5% Fees:</b> 12 EOS</h5>
+	  
+          <h5><b>Total Payout:</b> 228 EOS</h5>
+	  
+          <h5><b>Winner total amount:</b> 100 EOS from Mike (40) and Jane(60)</h5>
+	  
+          <h5>Payout by player:</h5>
+          <ul>
+            <li>Mike receives  (40 * 228) / 100  = 91.2000 EOS</li>
+            <li>Jane receives  (60 * 228) / 100  = 136.8000 EOS</li>
+          </ul>
+	  
+          <h5>2. The scenario with no winners</h5>
+	  
+          <h5><b>The game:</b> Game China 2x2 Japan Fee = 5%</h5>
+	  
+          <h5>The Players actions:</h5>
+          <ul>
+            <li><b>John:</b>  bets 50 EOS on score 1x0</li>
+            <li><b>Tony:</b>   bets 90 EOS on score 1x2</li>
+            <li><b>Mike:</b> bets 40 EOS on score 1x1</li>
+            <li><b>Jane:</b>   bets 60 EOS on score 1x1</li>
+          </ul>
+	  
+          <h5><b>Amount collected:</b> 240 EOS</h5>
+	  
+          <h5><b>5% Fees:</b> 12 EOS</h5>
+	  
+          <h5><b>Total Payout:</b> 228 EOS</h5>
+	  
+          <h5><b>Winner total:</b> 0 EOS</h5>
+	  
+          <h5>Payout by player:</h5>
+          <ul>
+            <li>John: receives  (50 * 0.95) = 47.5000 EOS</li>
+            <li>Tony: receives  (90 * 0.95) = 85.5000 EOS</li>
+            <li>Mike: receives  (40 * 0.95) = 38.0000 EOS</li>
+            <li>Jane: receives  (60 * 0.95) = 57.0000 EOS</li>
+          </ul>
+        </div>
+	
+        <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+          <h3>FAQ</h3>
+	  
+          <h4>What is the GoalBarBetting Club Simple Game Score (SGS)?</h4>
+          <p>The GoalBarBetting Club is just our  EOS development roadmap first step. It represents the first of a series of cryptocurrency betting applications that are simple and easy to understand. It is not for game professionals, it is for fun and earn some money. If our community grows, it could mean real money ! :-)</p>
+	  
+          <p>We plan to charge a small fee, ranging from 5 to 12 percent. The remaining amount is allocated to the winners or sent back to all users if there are no winners.</p>
+	  
+          <p>In the future, we plan to create a separate EOS token to be used by the autonomous community (DAC). Check out our <a href="http://www.goalbarclub.org/roadmap.html">roadmap</a></p>
+	  
+          <h4>What do I need to play with the GoalBarBetting SGS?</h4>
+	  
+          <p>At this point, you are ready to play</p>
+	  
+          <h4>Are there any other ways to play?</h4>
+	  
+          <p>We are developing mobile applications for Android and iPhone (IOs). Also, we are working on integrations with exchanges and other wallets.</p>
+	  
+          <p>Check our Telegram channel for finding more information about new partners.</p>
+	  
+          <h4>Why do you offer three levels of betting for each game?</h4>
+	  
+          <p>The GoalBarBetting Club is on the way to become a DAC (Decentralized Autonomous Community).</p>
+	  
+          <p>We encourage all EOS token holders to join and invite their friends. We have the BRONZE level for betting small amounts. The GOLD  aims the considerable betting amounts, and the SILVER level is for bets in between.</p>
+	  
+          <p>Players at each level only compete with others who bet at the same level. Since the payout to the winners is proportional to the amount waged, we can avoid dominating bets.</p>
+	  
+          <h4>Which tokens will GoalBarBetting SGS  accept for betting?</h4>
+	  
+          <p>At this point, we only accept EOS. We are currently working to enable EOS based tokens transactions. (like EOSDAC,  KARMA or other popular tokens).</p>
+	  
+          <h4>Why do I need a third party wallet to use the GoalBarBetting SGC?</h4>
+	  
+          <p>Our initial approach would be having only the mobile versions. The application would provide the EOS account required to use the system and use an internal wallet. At this time, the high prices of EOS network RAM have limited this strategy. Alternatively, users can bet with their existing EOS account. In this case, you will need to use the scatter wallet.</p>
+	  
+          <h4>Is there an Oracle that provides the result of the games?</h4>
+	  
+          <p>Included in the operating costs are the efforts to create automated and semi-automated ways to update the “Oracle” with the results of each game. Check our steemit blog for updates.</p>
+	  
+          <h4>Who chooses the games available for betting in the SGC?</h4>
+	  
+          <p>The goalbarclub team will initially select games based on their relevance on international championships. We are always open for suggestions about new games. Also, we are looking for partners to act as promoters of games in different countries. Please check out our website for more details.</p>
+	  
+          <h4>What happens when nobody wins a betting game?</h4>
+	  
+          <p>If no one guesses the correct game score, the amount bet will be returned to the users after we charge a  small operating fee.</p>
+        </div>
+	
+        <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+	  
+	  
+          <div class="list-group">
+            <a href="javascript:openLink('https://twitter.com/goalbarclub', '_blank')" class="list-group-item list-group-item-action"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="javascript:openLink('https://t.me/goalbarclub', '_blank')" class="list-group-item list-group-item-action"><i class="fab fa-telegram-plane"></i> Telegram</a>
+            <a href="javascript:openLink('https://github.com/goalbarclub', '_blank')" class="list-group-item list-group-item-action"><i class="fab fa-github-alt"></i> Github</a>
+            <a href="javascript:openLink('https://eosflare.io/account/ctgbarbeting', '_blank')" class="list-group-item list-group-item-action disabled"><i class="far fa-user-circle"></i>  Check account</a>
+          </div>	  
+	  
+        </div>
+      </div>
+      
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js" integrity="sha512-vNyLnOEb7uFmEtVbLnyZQ9/k4zckM2Vu3jJOKq6XfWEVZG0yKcjDExVN4EQ7e3F+rePWRncMolI2xFi/3qo62A==" crossorigin="anonymous"></script>
+    <script src="eosmsg.js"></script>
+    <script src="lib/scatter/scatter.min.js"></script>
+    
+  </body>
+  
+  <script>
+    var contract_account = "ctgbarbeting";
+    var app_name = "simpleshot";
+    var current_account = null;
+
+    $(document).ready(function() {
+	initGameList();
+
+	initAdapter(app_name);
+    });
+
+    document.addEventListener('userLogin', res => {
+	$("#divlogin").hide();
+	$("#balance").show();
+	$(".btn-bet").show();
+	$("#btnLogout").show();
+
+	getCurrentAccount().then(p => {
+	    current_account = p;
+	    initGameList();
+	});
+    });
+
+    document.addEventListener('userLogout', res => {
+	$("#divlogin").show();
+	$("#balance").hide();
+	$(".btn-bet").hide();
+	$("#btnLogout").hide();
+	$("#divclaim").hide();
+
+	current_account = null;
+    });
+
+    document.addEventListener('AdapterLoaded', res => {
+	console.log("Adapter loaded");
+	EOSLogin();
+    });
+
+    document.addEventListener('AdapterLoadFailed', res => {
+	alert(res);
+	current_account = null;
+    });
+
+    async function appLogin() {
+	EOSLogin();
+	getCurrentAccount().then(p => {
+	    current_account = p;
+	});
+    }
+
+    function appLogout() {
+	EOSLogout().then(res => {
+	    current_account = null;
+	    initGameList();
+	});
+    }
+
+    //// EOS ////////////
+    var {
+	format,
+	api,
+	ecc,
+	json,
+	Fcbuffer
+    } = Eos.modules;
+    
+    eosconfig = {
+	httpEndpoint: getEOSHttpEndpoint(),
+	chainId:  getEOSChainID(),
+	broadcast: true,
+	verbose: false,
+    };
+    
+    eos = Eos(eosconfig);
+
+    function getGameHeaderColor(d) {
+	var now = new Date().getTime();
+	var dt = new Date(d);
+
+	if (dt < now) {
+	    return "bg-danger";
+	}
+
+	if ((dt - now) < 24 * 3600 * 1000 ) {
+	    return "bg-warning";
+	}
+	
+	return "bg-success";
+    }
+
+    function initGameList() {
+	eos.getTableRows({
+	    "json": true,
+	    "scope": contract_account,
+	    "code": contract_account,
+	    "table": "game",
+	    "limit": 100,
+	}).then(result => {
+	    console.log(result);
+	    $("#listgames").html("");
+	    
+	    for (var i in result.rows) {
+		var g = result.rows[i];
+		var Min = g.value_min.substring(0, g.value_min.length - 3) * 10000;
+		var Max = g.value_max.substring(0, g.value_max.length - 3) * 10000;
+		var Step = (Max - Min) / 20;
+
+		$("#listgames").append("<div class='col-12'><div class='card text-center' style='margin: 30px; background-color: #fffe;'>" +
+				       "   <div class='card-header " + getGameHeaderColor(g.bet_until) + "'>" +
+				       "      " + g.description + " (" + g.fee + " %)" +
+				       "   </div> "+
+				       "   <div class='card-body'>"+
+				       "      <h5 class='card-title'>"+g.team1+ " X " + g.team2 + "</h5>"+
+				       " <div id='tobet" + g.id + "'>"+
+				       "	   <p class='card-text'><b>Min:</b> " + g.value_min + " <b>Max:</b> " + g.value_max + "</p>"+
+
+				       " <div class='row'><input type='range' class='custom-range col-md-8 offset-md-2' min='" + Min +"' max='" + Max+ "' step='" + Step + "' id='amount" + g.id + "' value='" + Min + "'" +
+				       " onchange='var v = $(\"\#amount\" + " + g.id + ").val(); $(\"\#valbet\" + " + g.id + ").html(v/10000); " +
+				       "'> "+
+				       " <label for='amount"+ i +"'>Amount: <span id='valbet" + g.id + "'>" + Min / 10000 + "</span> EOS</label></div>"+
+				       
+				       " <p> "+g.team1+ " <input type='number' value='0' id='oscore" + g.id + "'>  X <input type='number' value='0' id='tscore" + g.id + "'> " + g.team2 + "</p>" +
+				       
+				       "<a class='btn btn-primary btn-lg btn-bet' href='javascript:bet(" + g.id + ");' role='button' style='display:none;'><i class='fas fa-trophy'></i> Bet</a> " +
+				       "<a class='btn btn-info btn-lg' href='javascript:showStats(" + g.id + ");' role='button'><i class='fas fa-chart-bar'></i> Stats</a> " +
+				       
+				       " </div>" +
+				       "   </div> "+
+				       "   <div class='card-footer text-muted'> "+
+				       "	  Bets until: " + g.bet_until+
+				       "    </div>"+
+				       "</div></div>" );
+		
+	    }
+	    
+	    hideJustBetGame();
+	    updatePanels();
+	}).catch(function(exception) {
+	    if (exception) {
+		alert(exception);
+	    }
+	});
+    }
+
+    function bet(idgame) {
+	var amount = format.DecimalUnimply($("#valbet" + idgame).html() * 10000, 4) + " EOS";
+	var sc1 = $("#oscore"+idgame).val();
+	var sc2 = $("#tscore"+idgame).val();
+	
+	transfer(contract_account, amount, "" + idgame + "," + sc1 + "," + sc2)
+	    .then(result => {
+		console.log(result);
+		hideJustBetGame();
+	    })
+	    .catch(err => {
+                var d = JSON.parse(err);
+                var msg = d.error.details[0].message;
+                console.log(msg);
+
+                $("#msgContent").html(msg);
+                $("#msg").modal();
+	    });
+    }
+
+    function hideJustBetGame() {
+	if (current_account != null) {
+	    $(".btn-bet").show();
+	    
+	    p  = current_account;
+	    eos.getTableRows({
+		"json": true,
+		"scope": contract_account,
+		"code": contract_account,
+		"table": "bet",
+		"limit": 10000,
+	    }).then(result => {
+		console.log("BETS");
+		console.log(result);
+		
+		for (var i in result.rows) {
+		    var bet = result.rows[i];
+		    if (p != bet.player)
+			continue;
+		    
+		    $("#tobet" + bet.idgame).html(
+			"<p><b>Bet at: </b>" + bet.created_at + "</p>" +
+			    "<p><b>Amount: " + bet.value + "</p>" +
+			    "<p><h3>My bet: " + bet.score1 + "X" + bet.score2 + "</h3></p>" +
+			    "<a class='btn btn-info btn-lg' href='javascript:showStats(" + bet.idgame + ");' role='button'><i class='fas fa-chart-bar'></i> Stats</a> ");
+		}
+		
+		adjustIFrameHeight(document.body.scrollHeight);
+	    }).catch(function(exception) {
+		if (exception) {
+		    alert(exception);
+		}
+	    });
+	}
+    }
+
+    function updatePanels() {
+	if (current_account != null) {
+	    p  = current_account;
+	    eos = getEOSFromAdapter();
+	    
+	    console.log(p);
+	    
+	    eos.getCurrencyBalance("eosio.token", p)
+		.then(result => {
+		    console.log(result);
+		    $("#mybalance").html(result[0]);
+		});
+	    
+	    eos.getTableRows({
+		"json": true,
+		"scope": contract_account,
+		"code": contract_account,
+		"table": "player",
+		"limit": 10,
+		"lower_bound": p,
+	    }).then(result => {
+		console.log("CLAIM");
+		console.log(result);
+		
+		if (result.rows.length == 0) {
+		    $("#divclaim").hide();
+		} else {
+		    $("#toclaim").html(result.rows[0].eos_balance);
+		    $("#divclaim").show();
+		}
+	    }).catch(function(exception) {
+		if (exception) {
+		    alert(exception);
+		}
+	    });
+	}	
+    }
+    
+function claim() {
+	console.log("claim");
+	if (current_account != null) {
+		p  = current_account;
+		eos = getEOSFromAdapter();
+
+		console.log(p);
+
+		signAndPush({
+			account: 'ctgbarbeting',
+			name: 'claim',
+			authorization: [{
+				actor: p,
+				permission: 'active'
+			}],
+			data: { name: p }
+		})
+			.then(result => {
+				console.log(result);
+				updatePanels();
+				hideJustBetGame();
+			})
+			.catch(exception => {
+				alert("Claim error");
+			});
+	}
+}
+    
+    function showStats(id) {
+	openLink("http://www.goalbarclub.org/sgstatsmain/game/" + id, '_blank');
+    }    
+  </script>
+  
+</html>
