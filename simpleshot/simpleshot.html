@@ -253,6 +253,11 @@
     $(document).ready(function() {
 	initGameList();
 
+        if(window.scatter == null) {
+           $("#msgContent").html("Scatter not found!!");
+           $("#msg").modal();
+        }
+
 	initAdapter(app_name);
     });
 

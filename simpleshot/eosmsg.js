@@ -87,30 +87,38 @@ function getEOSFromAdapter() {
 }
 
 function initAdapter(appname) {
-    if (window.scatter == null) {
-	var event = new Event('AdapterLoadFailed');
-	document.dispatchEvent(event);
-	return null;
-    }
-
-    var event = new Event('AdapterLoaded');
-    document.dispatchEvent(event);	
+    EOSLogin();
+    
     return null;
 }
 
 async function EOSLogin() {
     try{
-	let ident = await window.scatter.getIdentity();
-	let auth = await window.scatter.authenticate();
+	var hsc = scatter.connect("simpleshot").then(connected => {
+	    if (window.scatter == null) {
+		var event = new Event('AdapterLoadFailed');
+		document.dispatchEvent(event);
+		return false;
+	    }
+	    
+	    var event = new Event('AdapterLoaded');
+	    document.dispatchEvent(event);	    
+	    	    
+	    let ident = await window.scatter.getIdentity();
+	    let auth = await window.scatter.authenticate();
 
-	var event = new Event('userLogin');
-        document.dispatchEvent(event);
-	
-	return auth;
+	    var event = new Event('userLogin');
+            document.dispatchEvent(event);
+
+	    if(!connected) return false;
+	    return true;
+	});
+
+	return true;
     } catch (e) {
 	var event = new Event('userLogout');
         document.dispatchEvent(event);
-	return null;
+	return e;
     }
 }
 
