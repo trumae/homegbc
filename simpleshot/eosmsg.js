@@ -94,7 +94,7 @@ function initAdapter(appname) {
 
 async function EOSLogin() {
     try{
-	var hsc = scatter.connect("simpleshot").then(connected => {
+	var hsc = scatter.connect("simpleshot").then(function(connected) {
 	    if (window.scatter == null) {
 		var event = new Event('AdapterLoadFailed');
 		document.dispatchEvent(event);
@@ -104,11 +104,19 @@ async function EOSLogin() {
 	    var event = new Event('AdapterLoaded');
 	    document.dispatchEvent(event);	    
 	    	    
-	    let ident = await window.scatter.getIdentity();
-	    let auth = await window.scatter.authenticate();
-
-	    var event = new Event('userLogin');
-            document.dispatchEvent(event);
+	    let ident = window.scatter.getIdentity().then(res => {
+		let auth = window.scatter.authenticate().then(r2 => {
+		    var event = new Event('userLogin');
+		    document.dispatchEvent(event);
+		}).catch(e1 => {
+		    var event = new Event('userLogout');
+		    document.dispatchEvent(event);
+		});
+	    }).catch(e => {
+		console.log(e);
+		var event = new Event('userLogout');
+		document.dispatchEvent(event);
+	    });
 
 	    if(!connected) return false;
 	    return true;

@@ -261,19 +261,20 @@
 	initAdapter(app_name);
     });
 
-    document.addEventListener('userLogin', res => {
-	$("#divlogin").hide();
-	$("#balance").show();
-	$(".btn-bet").show();
-	$("#btnLogout").show();
+    function showLogged() {
+        $("#divlogin").hide();
+        $("#balance").show();
+        $(".btn-bet").show();
+        $("#btnLogout").show();
 
 	getCurrentAccount().then(p => {
 	    current_account = p;
 	    initGameList();
 	});
-    });
+    }
+    
 
-    document.addEventListener('userLogout', res => {
+    function showLogout() {
 	$("#divlogin").show();
 	$("#balance").hide();
 	$(".btn-bet").hide();
@@ -281,15 +282,24 @@
 	$("#divclaim").hide();
 
 	current_account = null;
+    }
+
+    document.addEventListener('userLogin', res => {
+       showLogged();
+    });
+
+    document.addEventListener('userLogout', res => {
+       showLogout();
     });
 
     document.addEventListener('AdapterLoaded', res => {
 	console.log("Adapter loaded");
-	EOSLogin();
+        console.log(res);
     });
 
     document.addEventListener('AdapterLoadFailed', res => {
-	alert(res);
+	console.log("Adapter loaded failed");
+        console.log(res);
 	current_account = null;
     });
 
