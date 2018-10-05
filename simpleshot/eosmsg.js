@@ -20,7 +20,78 @@ const network = {
 const requiredFields = { accounts:[network[blockchain]] };
 
 var adapterEos___ = null;
-var transactionOptions___ = null; 
+var transactionOptions___ = null;
+var scatterLogin = localStorage.getItem('user');
+
+document.addEventListener('scatterLoaded', scatterExtension => {
+    scatter = window.scatter;
+    if(scatterLogin === 'connected'){
+	var event = new Event('AdapterLoaded');
+	document.dispatchEvent(event);	   
+	return  initScatter();
+    }
+    
+    var event = new Event('AdapterLoadFailed');
+    document.dispatchEvent(event);
+});
+
+
+function initScatter(){
+    return scatter.suggestNetwork(network[blockchain]).then((selectedNetwork) => {
+	const requiredFields = { accounts: [{ blockchain: 'eos', chainId: network[blockchain].chainId }] };
+	
+	eos = scatter.eos(network[blockchain], Eos, {chainId:network[blockchain].chainId}, network[blockchain].secured ? 'https' : undefined);
+	return scatter.getIdentity(requiredFields).then(identity => {
+	    
+	    if (identity.accounts.length === 0) {
+		return;
+	    }
+	    localStorage.setItem('user', 'connected');
+	    accountName = identity.accounts[0].name;
+	    scatterInited = true;
+	    
+	    var event = new Event('userLogin');
+	    document.dispatchEvent(event);
+	    
+	}).catch(error => showScatterError(error));
+    }).catch(error => showScatterError(error));
+}
+
+
+function showScatterError(error){
+	if (!error) return;
+
+/*    $("#gameContainer").hide();
+	var msg = error.message;
+
+	if (error.type == "account_missing" && error.code == 402 ){
+		msg = "Missing required accounts, repull the identity. Choose account the same as added in Scatter.";
+	}
+
+	if (error.type == "identity_rejected" && error.code == 402 ){
+		msg = "Please accept Identity request";
+	}
+
+	if (error.type == "locked" && error.code == 423 ){
+		msg = "Your Scatter wallet is locked";
+	}
+
+	if (error.type == "signature_rejected" && error.code == 402 ){
+		msg = "Voting Transaction canceled (you rejected signature request)";
+	}
+*/
+    console.log(error);
+}
+
+
+function logout(){
+    localStorage.setItem('user', 'disconnect');
+    scatter.forgetIdentity().then(() => {
+        window.location.href = "/";
+    }).catch(err => {
+        console.error(err);
+    });
+}
 
 async function signAndPush(action) {
     let ident = await scatter.getIdentity(requiredFields);
@@ -88,46 +159,11 @@ function getEOSFromAdapter() {
 
 function initAdapter(appname) {
     EOSLogin();
-    
     return null;
 }
 
 async function EOSLogin() {
-    try{
-	var hsc = scatter.connect("simpleshot").then(function(connected) {
-	    if (window.scatter == null) {
-		var event = new Event('AdapterLoadFailed');
-		document.dispatchEvent(event);
-		return false;
-	    }
-	    
-	    var event = new Event('AdapterLoaded');
-	    document.dispatchEvent(event);	    
-	    	    
-	    let ident = window.scatter.getIdentity().then(res => {
-		let auth = window.scatter.authenticate().then(r2 => {
-		    var event = new Event('userLogin');
-		    document.dispatchEvent(event);
-		}).catch(e1 => {
-		    var event = new Event('userLogout');
-		    document.dispatchEvent(event);
-		});
-	    }).catch(e => {
-		console.log(e);
-		var event = new Event('userLogout');
-		document.dispatchEvent(event);
-	    });
-
-	    if(!connected) return false;
-	    return true;
-	});
-
-	return true;
-    } catch (e) {
-	var event = new Event('userLogout');
-        document.dispatchEvent(event);
-	return e;
-    }
+    initScatter();
 }
 
 async function EOSLogout () {
