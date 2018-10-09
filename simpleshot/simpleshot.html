@@ -9,7 +9,18 @@
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    
+   
+<style>
+.red {
+	background-color: #ff0000;
+}
+.yellow {
+	background-color: #ffff00;
+}
+.green {
+	background-color: #00ff00;
+}
+</style>
   </head>
   
   <body>
@@ -18,6 +29,18 @@
       
       
       <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+        <li class="nav-item">
+          <img src="res/goalbar_logo.jpg" height=0px width="10px" />
+        </li>
+        <li class="nav-item">
+          <img src="res/goalbar_logo.jpg" width="27px" />
+        </li>
+        <li class="nav-item">
+          <img src="res/goalbar_logo.jpg" height=0px width="20px" />
+        </li>
+
+	
         <li class="nav-item">
           <a class="nav-link active" id="games-tab" data-toggle="tab" href="#games" role="tab" aria-controls="games" aria-selected="true">Games</a>
         </li>
@@ -33,8 +56,8 @@
       </ul>
        
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="games" role="tabpanel" aria-labelledby="games-tab" style='background-image: url("https://c.pxhere.com/photos/e7/69/artificial_turf_sports_turf_artificial_grass_lawn_green_grass_turf_green_texture-798258.jpg!d");'>
-          <nav class="navbar navbar-dark bg-dark">
+        <div class="tab-pane fade show active" id="games" role="tabpanel" aria-labelledby="games-tab" style="background-color:#f0efef;">
+          <nav class="navbar navbar-dark" style="background-color:#bccad6;" >
 	    <div class="btn-group" role="group">
 	      <a type="button" class="btn btn-info" href="javascript:initGameList()">Refresh</a>
 	      <a type="button" id="btnLogout" style="display:none;" class="btn btn-info" href="javascript:appLogout()">Logout</a>
@@ -339,14 +362,14 @@
 	var dt = new Date(d);
 
 	if (dt < now) {
-	    return "bg-danger";
+	    return "red";
 	}
 
 	if ((dt - now) < 24 * 3600 * 1000 ) {
-	    return "bg-warning";
+	    return "yellow";
 	}
 	
-	return "bg-success";
+	return "green";
     }
 
     function initGameList() {
@@ -526,7 +549,7 @@ function claim() {
 }
     
     function showStats(id) {
-	openLink("http://www.goalbarclub.org/sgstatsmain/game/" + id, '_blank');
+	openLink("http://www.portofirme.top:18000/game/" + id, '_blank');
     }    
   </script>
   

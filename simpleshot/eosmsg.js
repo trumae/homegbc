@@ -25,14 +25,14 @@ var scatterLogin = localStorage.getItem('user');
 
 document.addEventListener('scatterLoaded', scatterExtension => {
     scatter = window.scatter;
-    if(scatterLogin === 'connected'){
+    try {
 	var event = new Event('AdapterLoaded');
 	document.dispatchEvent(event);	   
 	return  initScatter();
+    } catch(e) {    
+	var event = new Event('AdapterLoadFailed');
+	document.dispatchEvent(event);
     }
-    
-    var event = new Event('AdapterLoadFailed');
-    document.dispatchEvent(event);
 });
 
 
