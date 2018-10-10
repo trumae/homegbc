@@ -407,7 +407,11 @@
          "Germany"      : "https://www.resultados.com/res/image/data/zP226aXg-02AFhOqC.png",
          "Netherlands"  : "https://www.resultados.com/res/image/data/bieizLjl-neUmUb9G.png", 
        };
-       return teams[team];
+
+       if (team in teams)
+          return teams[team]; 
+       else 
+          return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFgGXzx5JysBWLDoc-3g_EWdx7eEotkoC5KjUxGha-zrvVy0lAoQ";
     }
 
     function initGameList() {
@@ -432,7 +436,7 @@
 				       "      " + g.description + 
 				       "   </div> "+
 				       "   <div class='card-body'>"+
-				       "      <h5 class='card-title'><img src='" + team2logo(g.team1) + "'/>"+g.team1+ " X " + g.team2 + "<img src='" + team2logo(g.team2) + "'/></h5>" +
+				       "      <h5 class='card-title'><img src='" + team2logo(g.team1) + "'/> "+g.team1+ " X " + g.team2 + " <img src='" + team2logo(g.team2) + "'/></h5>" +
 				       " <div id='tobet" + g.id + "'>"+
                                        " <p class='card-text' ><span id='rewards" + g.id + "'></span>" +
 				       " <p class='card-text " + getGameStatus(g.bet_until) + "'><b>Min:</b> " + g.value_min + " <b>Max:</b> " + g.value_max + "</p>"+
