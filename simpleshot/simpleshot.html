@@ -62,7 +62,7 @@
 	      <a type="button" class="btn btn-info" href="javascript:initGameList()">Refresh</a>
 	      <a type="button" id="btnLogout" style="display:none;" class="btn btn-info" href="javascript:appLogout()">Logout</a>
 	    </div>
-	    <span  id="balance" class="text-right" style="display:none;background-color:#e9ecefee;">My Balance: <span id="mybalance">0.0000 EOS</span></span>
+	    <span  id="balance" class="text-right" style="display:none;background-color:#e9ecefee;"><span id="mybalance"></span></span>
 	  </nav><br/>
 
 	  <div class="modal fade bd-example-modal-lg" role="dialog" id="msg">
@@ -111,6 +111,16 @@
           <div class="row">
             <div class="col-12">
               <h3 class="text-center" style="background-color:#e9ecefee;">Games to bet</h3>
+              <!-- <div class="row" id="sortcontrols">
+                 <div class="col-1 offset-7">Sort:</div>
+                 <div class="col-3">
+                    <select class="form-control">
+                       <option>Status</option>
+                       <option>T1</option>
+                       <option>T2</option>
+                    </select>
+                 </div>
+              </div> -->
               <div class="row" id="listgames" style="min-height: 800px;">
               </div>
             </div>
@@ -372,6 +382,34 @@
 	return "green";
     }
 
+    function getGameStatus(d) {
+	var now = new Date().getTime();
+	var dt = new Date(d);
+
+	if (dt < now) {
+	    return "st-closed";
+	}
+	
+	return "st-open";
+    }
+
+    function team2logo(team) {
+       var teams = {
+          // Brazil
+          "Atlético-MG" : "https://www.resultados.com/res/image/data/WbSJHDh5-lWKKdTEe.png",
+          "Chapecoense" : "https://www.resultados.com/res/image/data/v9EKoUeM-t25AHKOe.png",
+          "Cruzeiro"    : "https://www.resultados.com/res/image/data/QDS2MvBr-0rn95JMc.png",
+          "Vasco"       : "https://www.resultados.com/res/image/data/nX0WxQg5-ptTI6fcH.png",
+          "Corinthians" : "https://www.resultados.com/res/image/data/jgHv8MEa-OWRM5ECN.png",
+          "Santos"      : "https://www.resultados.com/res/image/data/rJGaKUhl-2NQQ4YRT.png",
+
+         //Countries
+         "Germany"      : "https://www.resultados.com/res/image/data/zP226aXg-02AFhOqC.png",
+         "Netherlands"  : "https://www.resultados.com/res/image/data/bieizLjl-neUmUb9G.png", 
+       };
+       return teams[team];
+    }
+
     function initGameList() {
 	eos.getTableRows({
 	    "json": true,
@@ -382,43 +420,72 @@
 	}).then(result => {
 	    console.log(result);
 	    $("#listgames").html("");
-	    
+
 	    for (var i in result.rows) {
 		var g = result.rows[i];
 		var Min = g.value_min.substring(0, g.value_min.length - 3) * 10000;
 		var Max = g.value_max.substring(0, g.value_max.length - 3) * 10000;
 		var Step = (Max - Min) / 20;
-
-		$("#listgames").append("<div class='col-12'><div class='card text-center' style='margin: 30px; background-color: #fffe;'>" +
+                
+		$("#listgames").append("<div class='col-10 offset-1'><div class='card text-center' style='margin: 30px; background-color: #fffe;'>" +
 				       "   <div class='card-header " + getGameHeaderColor(g.bet_until) + "'>" +
-				       "      " + g.description + " (" + g.fee + " %)" +
+				       "      " + g.description + 
 				       "   </div> "+
 				       "   <div class='card-body'>"+
-				       "      <h5 class='card-title'>"+g.team1+ " X " + g.team2 + "</h5>"+
+				       "      <h5 class='card-title'><img src='" + team2logo(g.team1) + "'/>"+g.team1+ " X " + g.team2 + "<img src='" + team2logo(g.team2) + "'/></h5>" +
 				       " <div id='tobet" + g.id + "'>"+
-				       "	   <p class='card-text'><b>Min:</b> " + g.value_min + " <b>Max:</b> " + g.value_max + "</p>"+
+                                       " <p class='card-text' ><span id='rewards" + g.id + "'></span>" +
+				       " <p class='card-text " + getGameStatus(g.bet_until) + "'><b>Min:</b> " + g.value_min + " <b>Max:</b> " + g.value_max + "</p>"+
 
-				       " <div class='row'><input type='range' class='custom-range col-md-8 offset-md-2' min='" + Min +"' max='" + Max+ "' step='" + Step + "' id='amount" + g.id + "' value='" + Min + "'" +
+				       " <div class='row  " + getGameStatus(g.bet_until) + 
+			               "'><input type='range' class='custom-range col-md-8 offset-md-2' min='" + Min +"' max='" + Max+ "' step='" + Step + "' id='amount" + g.id + "' value='" + Min + "'" +
 				       " onchange='var v = $(\"\#amount\" + " + g.id + ").val(); $(\"\#valbet\" + " + g.id + ").html(v/10000); " +
 				       "'> "+
 				       " <label for='amount"+ i +"'>Amount: <span id='valbet" + g.id + "'>" + Min / 10000 + "</span> EOS</label></div>"+
 				       
-				       " <p> "+g.team1+ " <input type='number' value='0' id='oscore" + g.id + "'>  X <input type='number' value='0' id='tscore" + g.id + "'> " + g.team2 + "</p>" +
+				       " <p class='" + getGameStatus(g.bet_until) + "'> "+ g.team1 + 
+                                       "   <select id='oscore" + g.id + "'><option value='0'>0</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option></select> X " +
+                                       "   <select id='tscore" + g.id + "'><option value='0'>0</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option></select>" + g.team2 + "</p>" +
 				       
-				       "<a class='btn btn-primary btn-lg btn-bet' href='javascript:bet(" + g.id + ");' role='button' style='display:none;'><i class='fas fa-trophy'></i> Bet</a> " +
+				       "<a class='btn btn-primary btn-lg btn-bet " + getGameStatus(g.bet_until) + "' href='javascript:bet(" + g.id + ");' role='button' style='display:none;'><i class='fas fa-trophy'></i> Bet</a> " +
 				       "<a class='btn btn-info btn-lg' href='javascript:showStats(" + g.id + ");' role='button'><i class='fas fa-chart-bar'></i> Stats</a> " +
 				       
 				       " </div>" +
 				       "   </div> "+
 				       "   <div class='card-footer text-muted'> "+
-				       "	  Bets until: " + g.bet_until+
+				       "	  Bets until: " + g.bet_until + " (fee:" + g.fee + " %)" +
 				       "    </div>"+
 				       "</div></div>" );
-		
-	    }
+
+		// update rewards for each game
+                (function() {
+                   var g = result.rows[i];
+  	           eos.getTableRows({
+		      "json": true,
+		      "scope": contract_account,
+		      "code": contract_account,
+		      "table": "bet",
+		      "limit": 10000,
+	           }).then(result => {
+                      var sum = 0.0;
+                      for (var i in result.rows) {
+                         if(result.rows[i].idgame == g.id) {
+                            sum += parseFloat(format.parseAsset(result.rows[i].value).amount)
+                         }
+                      }
+                      
+                      if(parseFloat(format.parseAsset(g.rewards_min).amount) > sum) {
+                         $("#rewards" + g.id).html(" (rewards: " + g.rewards_min + ")"); 
+                      } else {
+                         $("#rewards" + g.id).html(" (rewards: " + format.DecimalPad(sum,4) + " EOS)"); 
+                      } 
+                   });
+                })();
+	    };
 	    
 	    hideJustBetGame();
 	    updatePanels();
+            $(".st-closed").hide();
 	}).catch(function(exception) {
 	    if (exception) {
 		alert(exception);
@@ -469,7 +536,8 @@
 		    $("#tobet" + bet.idgame).html(
 			"<p><b>Bet at: </b>" + bet.created_at + "</p>" +
 			    "<p><b>Amount: " + bet.value + "</p>" +
-			    "<p><h3>My bet: " + bet.score1 + "X" + bet.score2 + "</h3></p>" +
+			    "<p><h3>My bet: " + bet.score1 + "X" + bet.score2 + "</h3></p>" + 
+                            "<a class='btn btn-primary btn-lg btn-bet' href='javascript:bet(" + bet.idgame + ");' role='button'><i class='fas fa-trophy'></i> +Bet</a> " +
 			    "<a class='btn btn-info btn-lg' href='javascript:showStats(" + bet.idgame + ");' role='button'><i class='fas fa-chart-bar'></i> Stats</a> ");
 		}
 		
@@ -487,12 +555,10 @@
 	    p  = current_account;
 	    eos = getEOSFromAdapter();
 	    
-	    console.log(p);
-	    
 	    eos.getCurrencyBalance("eosio.token", p)
 		.then(result => {
 		    console.log(result);
-		    $("#mybalance").html(result[0]);
+		    $("#mybalance").html(p + " | balance: " + result[0]);
 		});
 	    
 	    eos.getTableRows({
@@ -509,6 +575,9 @@
 		if (result.rows.length == 0) {
 		    $("#divclaim").hide();
 		} else {
+                    if(result.rows[0].id != p)
+                       return;
+
 		    $("#toclaim").html(result.rows[0].eos_balance);
 		    $("#divclaim").show();
 		}
