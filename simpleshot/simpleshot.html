@@ -507,9 +507,9 @@
                       }
                       
                       if(parseFloat(format.parseAsset(g.rewards_min).amount) > sum) {
-                         $("#rewards" + g.id).html(" (rewards: " + g.rewards_min + ")"); 
+                         $("#rewards" + g.id).html(" (Min. game prize: <strong>" + g.rewards_min + "</strong>)"); 
                       } else {
-                         $("#rewards" + g.id).html(" (rewards: " + format.DecimalPad(sum,4) + " EOS)"); 
+                         $("#rewards" + g.id).html(" (Min. game prize: " + format.DecimalPad(sum,4) + " EOS)"); 
                       } 
                    });
                 })();
