@@ -154,13 +154,12 @@
             <li>The system accepts bets for each game up to a few minutes before the start time.</li>
             <li>From the total amount received, a fee of up to 10% will be deducted to cover the operational costs. The fee percentage may vary depending on the game and betting levels.</li>
             <li>The total payout is distributed to the winners proportionally to the amount waged.</li>
-            <li>Winning players can redeem their prize directly in the application. The game contract transfers the payouts from the game account to each user.</li>
-            <li>If no one guesses the game score correctly, the smart contract returns the proceeds to the original players after deducting the correspondent operating fees.</li>
+            <li>Winning players can redeem their prize directly in the application. The game contract transfers the payouts from the game account to each user.</li>            
+	    <li>When there are no winners the total bets will return to the pot for use in another match in the future.</li>
             <li>All these steps are recorded in the blockchain and will be there forever as a public record.</li>
           </ul>
 	  
           <h4>Sample game calculations</h4>
-          <h5>1. The scenario where there are winners</h5>
 	  
           <p><b>The game:</b> Game China 1x1 Japan Fee = 5%</p>
 	  
@@ -186,33 +185,6 @@
             <li>Jane receives  (60 * 228) / 100  = 136.8000 EOS</li>
           </ul>
 	  
-          <h5>2. The scenario with no winners</h5>
-	  
-          <h5><b>The game:</b> Game China 2x2 Japan Fee = 5%</h5>
-	  
-          <h5>The Players actions:</h5>
-          <ul>
-            <li><b>John:</b>  bets 50 EOS on score 1x0</li>
-            <li><b>Tony:</b>   bets 90 EOS on score 1x2</li>
-            <li><b>Mike:</b> bets 40 EOS on score 1x1</li>
-            <li><b>Jane:</b>   bets 60 EOS on score 1x1</li>
-          </ul>
-	  
-          <h5><b>Amount collected:</b> 240 EOS</h5>
-	  
-          <h5><b>5% Fees:</b> 12 EOS</h5>
-	  
-          <h5><b>Total Payout:</b> 228 EOS</h5>
-	  
-          <h5><b>Winner total:</b> 0 EOS</h5>
-	  
-          <h5>Payout by player:</h5>
-          <ul>
-            <li>John: receives  (50 * 0.95) = 47.5000 EOS</li>
-            <li>Tony: receives  (90 * 0.95) = 85.5000 EOS</li>
-            <li>Mike: receives  (40 * 0.95) = 38.0000 EOS</li>
-            <li>Jane: receives  (60 * 0.95) = 57.0000 EOS</li>
-          </ul>
         </div>
 	
         <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
