@@ -147,15 +147,14 @@
           <ul>
             <li>Players can pick a game and define the amount of EOS to be waged.</li>
             <li>An exact score of a match is the condition to win the bet. If the results of the game match with the bet, the player earns a payoff.</li>
-            <li>There are up to three betting levels for each game: Gold, Silver, and Bronze. For each level, there is a minimum and a maximum bet amount accepted. Gold has the highest, Silver the intermediate and Bronze the smallest range.</li>
-            <li>Given a game, a player cannot make more than one bet per level. For example, if a player chooses to bet on level Gold, he/she can also make bets on Silver and Bronze. However, no other bet on level Gold is allowed for that particular game.</li>
-            <li>The bets on each level are independent, so the score for bets in different levels can be different. For example, the player can bet on level Gold 2x1 and also make a bet on level Silver 2x2.</li>
+	    <li>Given a game, a player cannot make more than one bet per game.</li>
             <li>The player transfers the amount waged from his/her account to the EOS contract account.</li>
             <li>The system accepts bets for each game up to a few minutes before the start time.</li>
-            <li>From the total amount received, a fee of up to 10% will be deducted to cover the operational costs. The fee percentage may vary depending on the game and betting levels.</li>
+            <li>From the total amount received, a fee of up to 5% will be deducted to cover the operational costs.</li>
             <li>The total payout is distributed to the winners proportionally to the amount waged.</li>
             <li>Winning players can redeem their prize directly in the application. The game contract transfers the payouts from the game account to each user.</li>            
 	    <li>When there are no winners the total bets will return to the pot for use in another match in the future.</li>
+	    <li>To check the game statistics click on the <strong>Stats</strong> button</li>
             <li>All these steps are recorded in the blockchain and will be there forever as a public record.</li>
           </ul>
 	  
@@ -484,9 +483,9 @@
                       }
                       
                       if(parseFloat(format.parseAsset(g.rewards_min).amount) > sum) {
-                         $("#rewards" + g.id).html(" (Min. game prize: <strong>" + g.rewards_min + "</strong>)"); 
+                         $("#rewards" + g.id).html(" (Game prize: <strong>" + g.rewards_min + "</strong>)"); 
                       } else {
-                         $("#rewards" + g.id).html(" (Min. game prize: " + format.DecimalPad(sum,4) + " EOS)"); 
+                         $("#rewards" + g.id).html(" (Game prize: " + format.DecimalPad(sum,4) + " EOS)"); 
                       } 
                    });
                 })();
