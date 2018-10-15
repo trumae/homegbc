@@ -430,6 +430,10 @@
 	    console.log(result);
 	    $("#listgames").html("");
 
+	    result.rows.sort(function(a,b) {
+		return a.bet_until < b.bet_until ? -1 : a.bet_until > b.bet_until ? 1 : 0;
+	    });
+	    
 	    for (var i in result.rows) {
 		var g = result.rows[i];
 		var Min = g.value_min.substring(0, g.value_min.length - 3) * 10000;
