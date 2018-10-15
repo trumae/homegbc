@@ -446,8 +446,8 @@
 				       "   </div> "+
 				       "   <div class='card-body'>"+
 				       "      <h5 class='card-title'><img src='" + team2logo(g.team1) + "'/> "+g.team1+ " X " + g.team2 + " <img src='" + team2logo(g.team2) + "'/></h5>" +
+				       " <p class='card-text' ><span id='rewards" + g.id + "'></span>" +
 				       " <div id='tobet" + g.id + "'>"+
-                                       " <p class='card-text' ><span id='rewards" + g.id + "'></span>" +
 				       " <p class='card-text " + getGameStatus(g.bet_until) + "'><b>Min:</b> " + g.value_min + " <b>Max:</b> " + g.value_max + "</p>"+
 
 				       " <div class='row  " + getGameStatus(g.bet_until) + 
@@ -469,7 +469,7 @@
 				       "	  Bets until: " + g.bet_until + " (fee:" + g.fee + " %)" +
 				       "    </div>"+
 				       "</div></div>" );
-
+		
 		// update rewards for each game
                 (function() {
                    var g = result.rows[i];
@@ -480,17 +480,19 @@
 		      "table": "bet",
 		      "limit": 10000,
 	           }).then(result => {
-                      var sum = 0.0;
+		      var sum = 0.0;
+	              var count = 0;
                       for (var i in result.rows) {
                          if(result.rows[i].idgame == g.id) {
-                            sum += parseFloat(format.parseAsset(result.rows[i].value).amount)
+			     sum += parseFloat(format.parseAsset(result.rows[i].value).amount)
+			     count++;
                          }
                       }
                       
                       if(parseFloat(format.parseAsset(g.rewards_min).amount) > sum) {
-                         $("#rewards" + g.id).html(" (Game prize: <strong>" + g.rewards_min + "</strong>)"); 
+                         $("#rewards" + g.id).html(" (Game prize: <strong>" + g.rewards_min + "</strong> - Num. bets: " + count + ")");
                       } else {
-                         $("#rewards" + g.id).html(" (Game prize: " + format.DecimalPad(sum,4) + " EOS)"); 
+                         $("#rewards" + g.id).html(" (Game prize: <strong>" + format.DecimalPad(sum,4) + " EOS</strong> - Num. bets: " + count + ")"); 
                       } 
                    });
                 })();
@@ -548,7 +550,7 @@
 		    
 		    $("#tobet" + bet.idgame).html(
 			"<p><b>Bet at: </b>" + bet.created_at + "</p>" +
-			    "<p><b>My score:</b> " + bet.score1 + "X" + bet.score2 + " - <b>Bet:</b> " + bet.value + "</p>" + 
+			    "<p><b>My score:</b> " + bet.score1 + "X" + bet.score2 + " - <b>Bet:</b> " + bet.value + "</p>" +			    
                             ///"<a class='btn btn-primary btn-lg btn-bet' href='javascript:bet(" + bet.idgame + ");' role='button'><i class='fas fa-trophy'></i> +Bet</a> " +
 			    "<a class='btn btn-info btn-lg' href='javascript:showStats(" + bet.idgame + ");' role='button'><i class='fas fa-chart-bar'></i> Stats</a> ");
 		}
