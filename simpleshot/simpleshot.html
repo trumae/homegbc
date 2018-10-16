@@ -490,9 +490,9 @@
                       }
                       
                       if(parseFloat(format.parseAsset(g.rewards_min).amount) > sum) {
-                         $("#rewards" + g.id).html(" (Game prize: <strong>" + g.rewards_min + "</strong> - Num. bets: " + count + ")");
+                         $("#rewards" + g.id).html(" (Winner's prize: <strong>" + g.rewards_min + "</strong> - No. of bets: " + count + ")");
                       } else {
-                         $("#rewards" + g.id).html(" (Game prize: <strong>" + format.DecimalPad(sum,4) + " EOS</strong> - Num. bets: " + count + ")"); 
+                         $("#rewards" + g.id).html(" (Winner's prize: <strong>" + format.DecimalPad(sum,4) + " EOS</strong> - No. of bets: " + count + ")"); 
                       } 
                    });
                 })();
